@@ -1,70 +1,102 @@
-# Getting Started with Create React App
+# @gk3000/use-local-storage
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple and reusable React hook for managing localStorage with stateful reactivity. This hook allows you to easily store, retrieve, and clear values from localStorage while keeping them synchronized with your component's state.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Persistent Storage: Syncs your component state with localStorage to persist data across page reloads.
+- State Management: Automatically triggers component re-renders when the localStorage value changes.
+- Dynamic Data: Handles various data types (strings, numbers, objects, arrays, etc.) with JSON serialization.
+- Clear Functionality: Easily clear the localStorage entry and reset the state to the initial value.
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+You can install the hook via npm:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+npm i @gk3000/use-local-storage
+```
+or
+```
+yarn add @gk3000/use-local-storage
+```
 
-### `npm test`
+## Usage 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Import:
 
-### `npm run build`
+```
+import useLocalStorage from '@gk3000/use-local-storage'
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Basic example:
+```
+import React from 'react';
+import useLocalStorage from '@your-username/use-local-storage';
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+function App() {
+  // Use the custom hook to manage localStorage and component state
+  const [name, setName, clearName] = useLocalStorage('name', 'Guest');
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  return (
+    <div>
+      <h1>Hello, {name}!</h1>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Enter your name"
+      />
+      <button onClick={clearName}>Clear Name</button>
+    </div>
+  );
+}
 
-### `npm run eject`
+export default App;
+```
+### Parameters
+```
+const [storedValue, setValue, clear] = useLocalStorage(key, initialValue);
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- `key` (`string`): The key in `localStorage` under which the data is stored.
+- `initialValue` (`any`): The initial value to use if no existing data is found in `localStorage` for the given key.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Returns
+- `storedValue`: The current value stored in `localStorage` (and React state).
+- `setValue`: A function to update the value in `localStorage` and React state.
+- `clear`: A function to remove the value from `localStorage` and reset the state to the `initialValue`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Advanced Example (Objects and Arrays)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The `useLocalStorage` hook can handle more complex data structures like arrays and objects:
 
-## Learn More
+```
+function App() {
+  const [favoriteColors, setFavoriteColors, clearColors] = useLocalStorage('colors', ['Red', 'Blue']);
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  const addColor = () => setFavoriteColors(prevColors => [...prevColors, 'Green']);
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  return (
+    <div>
+      <h2>Favorite Colors:</h2>
+      <ul>
+        {favoriteColors.map((color, index) => (
+          <li key={index}>{color}</li>
+        ))}
+      </ul>
+      <button onClick={addColor}>Add Green</button>
+      <button onClick={clearColors}>Clear Colors</button>
+    </div>
+  );
+}
+```
 
-### Code Splitting
+## Error Handling
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The hook safely handles any errors that may occur when interacting with `localStorage` (e.g., JSON parsing errors, browser restrictions) and falls back to the initial value if necessary.
 
-### Analyzing the Bundle Size
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+MIT
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
