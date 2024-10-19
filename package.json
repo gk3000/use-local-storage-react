@@ -1,6 +1,6 @@
 {
   "name": "@gk3000/use-local-storage",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": false,
   "description": "A custom hook to use local storage in React",
   "main": "useLocalStorage.js",
@@ -12,6 +12,10 @@
   ],
   "author": "GK3000",
   "license": "ISC",
+"repository": {
+    "type": "git",
+    "url": "https://github.com/gk3000/use-local-storage-react.git"
+  },
   "peerDependencies": {
     "react": ">=18.3.1",
     "react-dom": ">=18.3.1"
